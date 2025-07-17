@@ -5,9 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\System\LogActivityService;
-use Auth;
-use DB;
-use Hash;
 use Illuminate\Http\Request;
 use Log;
 
@@ -17,11 +14,11 @@ class HrisController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
         ], [
             'email.required' => 'Masukan EMail Onekalbe',
             'email.email' => 'EMail Tidak Valid',
-            'password.required' => 'Masukan Password'
+            'password.required' => 'Masukan Password',
         ]);
 
         // Membuat array $kredensil langsung
@@ -30,11 +27,11 @@ class HrisController extends Controller
         // check User
         $user = User::where('email', $request->email)->first();
         if (!empty($user) && $user->jobLvl == 'Administrator') {
-            # code...
-            if (Auth::attempt($kredensil)) {
+            // code...
+            if (\Auth::attempt($kredensil)) {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Login Berhasil, Selamat Datang di '. env('APP_NAME'),
+                    'message' => 'Login Berhasil, Selamat Datang di '.env('APP_NAME'),
                     'redirect' => route('v1.dashboard'),
                 ]);
             } else {
@@ -47,12 +44,12 @@ class HrisController extends Controller
         } else {
             $data = $this->hris($request);
             if (empty($data['accessToken']) || $data['accessToken'] == null) {
-                # code...
-                (new LogActivityService)->handle([
+                // code...
+                (new LogActivityService())->handle([
                     'perusahaan' => '-',
                     'user' => strtoupper($request->email),
                     'tindakan' => 'Login',
-                    'catatan' => 'Salah Password atau Username'
+                    'catatan' => 'Salah Password atau Username',
                 ]);
 
                 return response()->json([
@@ -61,16 +58,16 @@ class HrisController extends Controller
                     'redirect' => route('login'),
                 ]);
             } else {
-                # code...
+                // code...
                 $this->getAccount($data, $request);
 
-                if (Auth::attempt($kredensil)) {
+                if (\Auth::attempt($kredensil)) {
                     $data = json_decode(auth()->user()->result, true);
-                    (new LogActivityService)->handle([
+                    (new LogActivityService())->handle([
                         'perusahaan' => strtoupper($data['CompName']),
                         'user' => strtoupper($request->email),
                         'tindakan' => 'Login',
-                        'catatan' => 'Berhasil Login Account'
+                        'catatan' => 'Berhasil Login Account',
                     ]);
 
                     return response()->json([
@@ -79,12 +76,11 @@ class HrisController extends Controller
                         'redirect' => route('v1.dashboard'),
                     ]);
                 } else {
-
-                    (new LogActivityService)->handle([
+                    (new LogActivityService())->handle([
                         'perusahaan' => '-',
                         'user' => strtoupper($request->email),
                         'tindakan' => 'Login',
-                        'catatan' => 'Salah Password atau Username'
+                        'catatan' => 'Salah Password atau Username',
                     ]);
 
                     return response()->json([
@@ -100,7 +96,7 @@ class HrisController extends Controller
     private function getAccount($data, $request)
     {
         try {
-            DB::beginTransaction();
+            \DB::beginTransaction();
 
             $response = explode('.', $data['accessToken']);
             $result = base64_decode($response[1]);
@@ -109,17 +105,17 @@ class HrisController extends Controller
             $resultJson = json_encode($response);
             // Cek PLT
             $jobTitle = $response['JobTtlName'];
-            $words = explode(" ", $jobTitle);
+            $words = explode(' ', $jobTitle);
 
             // Ambil kata pertama dan terakhir
             $firstWord = $words[0];
             $lastWord = strtoupper($words[count($words) - 1]);
 
             if (in_array($firstWord, ['PLT', 'PIC', 'ASSOCIATE'])) {
-                # code...
+                // code...
                 $role = $lastWord;
             } else {
-                # code...
+                // code...
                 $role = $response['JobLvlName'];
             }
 
@@ -127,7 +123,7 @@ class HrisController extends Controller
             // dd($response);
 
             if (empty($check)) {
-                # code...
+                // code...
                 // dd($check);
                 User::create([
                     'employeId' => $response['NIK'],
@@ -141,8 +137,8 @@ class HrisController extends Controller
                     'jobTitle' => $response['JobTtlName'],
                     'groupName' => $response['DivName'],
                     'groupKode' => $response['DivCode'],
-                    'password' => Hash::make($request->password),
-                    'result' => $resultJson
+                    'password' => \Hash::make($request->password),
+                    'result' => $resultJson,
                 ]);
             } else {
                 $check->update([
@@ -157,12 +153,13 @@ class HrisController extends Controller
                     'jobTitle' => $response['JobTtlName'],
                     'groupName' => $response['DivName'],
                     'groupKode' => $response['DivCode'],
-                    'password' => Hash::make($request->password),
-                    'result' => $resultJson
+                    'password' => \Hash::make($request->password),
+                    'result' => $resultJson,
                 ]);
             }
 
-            DB::commit();
+            \DB::commit();
+
             return [
                 'employeId' => $response['NIK'],
                 'fullname' => $response['Name'],
@@ -176,9 +173,10 @@ class HrisController extends Controller
                 'groupKode' => $response['DivCode'],
             ];
         } catch (\Throwable $th) {
-            //throw $th;
-            Log::error($th);
-            DB::rollBack();
+            // throw $th;
+            \Log::error($th);
+            \DB::rollBack();
+
             return null;
         }
     }
@@ -188,15 +186,15 @@ class HrisController extends Controller
         $credentials = [
             'username' => $request->email,
             'password' => $request->password,
-            'getprofile' => true
+            'getprofile' => true,
         ];
 
         // Kirim permintaan ke endpoint API login
 
         $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://api-global-it-pharma-production-3scale-apicast-staging.apps.alpha.kalbe.co.id/api/v1/GlobalLogin/Login',
+        curl_setopt_array($curl, [
+            CURLOPT_URL => 'https://api-global-itpharma-production-3scale.kalbe.co.id/api/v1/GlobalLogin/Login',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -205,50 +203,51 @@ class HrisController extends Controller
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => json_encode($credentials),
-            CURLOPT_HTTPHEADER => array(
+            CURLOPT_HTTPHEADER => [
                 'app_id: a8ecd84f',
                 'app_key: 1cb9d7c6d267a904ab461ad65d49458e',
                 'Content-Type: application/json',
-                'X-API-Key: SQA45CsPgqRCeyoO0ZzeKK6BFG1vpR1vy7r-gvPiEw4'
-            ),
-        ));
+                'X-API-Key: SQA45CsPgqRCeyoO0ZzeKK6BFG1vpR1vy7r-gvPiEw4',
+            ],
+        ]);
 
         $response = curl_exec($curl);
 
         curl_close($curl);
 
         $token = json_decode($response, true);
+
         return $token;
     }
 
     public function logout(Request $request)
     {
         try {
-            DB::beginTransaction();
+            \DB::beginTransaction();
             if (auth()->user()->jobLvl != 'Administrator') {
                 $data = json_decode(auth()->user()->result, true);
-                (new LogActivityService)->handle([
+                (new LogActivityService())->handle([
                     'perusahaan' => strtoupper($data['CompName']),
                     'user' => strtoupper(auth()->user()->email),
                     'tindakan' => 'LogOut',
-                    'catatan' => 'User Berhasil Logout System'
+                    'catatan' => 'User Berhasil Logout System',
                 ]);
             }
 
-            Auth::logout(); // Log out the user
+            \Auth::logout(); // Log out the user
 
             $request->session()->invalidate(); // Invalidate the session
             $request->session()->regenerateToken(); // Regenerate the session token
 
-            DB::commit();
+            \DB::commit();
 
             return redirect(route('login'))->with('success', 'Berhasil Logout, Terima Kasih');
         } catch (\Throwable $th) {
-            DB::rollBack();
+            \DB::rollBack();
 
             return response()->json([
                 'success' => false,
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ]);
         }
     }
