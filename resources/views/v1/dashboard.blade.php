@@ -32,7 +32,7 @@
         </div>
         <!--end::Toolbar-->
         <!--begin::Content container-->
-        <div id="kt_app_content_container" class="app-container container-sm">
+        <div id="kt_app_content_container" class="app-container container-fluid">
             <div class="card card-flush  shadow-sm border-0 mb-5">
                 <div class="card-body">
                     <div class="card-content">
@@ -42,25 +42,6 @@
                                     <div class="col-12">
                                         <span class="text-gray-800 fs-2 mb-2 fw-bold">Dashboard</span>
                                     </div>
-                                    <div class="col-12 my-4">
-                                        <span class="fw-bolder fs-2x">Formulir Monitoring Ruangan</span>
-                                    </div>
-                                    <div class="col-12 mb-6">
-                                        <p class="text-gray-500 fs-3 w-75">
-                                            Pantau kondisi Suhu, RH, dan DP secara real-time dan akurat dengan sistem monitoring kami yang mudah digunakan.
-                                        </p>
-                                    </div>
-                                    <div class="col-12 mb-4">
-                                        <span class="fw-bold fs-4">Tanggal: </span><span id="current-date" class="text-gray-700 fs-4"></span>
-                                    </div>
-                                    <div class="col-12 mb-6">
-                                        <div class="badge badge-light-dark p-5 fs-6 fw-semibold">
-                                            {{-- @foreach ($dokumen as $index => $item)
-                                                {{ $item->nomor_dokumen }}@if($index < count($dokumen) - 1) / @endif
-                                            @endforeach --}}
-                                        </div>
-                                    </div>
-                                    <div class="separator mb-5"></div>
                                 </div>
                             </div>
                         </div>

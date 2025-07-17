@@ -9,6 +9,7 @@
     <meta name="description" content="Formulir Monitoring Ruangan. Pantau Kondisi Suhu, RH, DP">
     <meta name="keywords" content="Monitoring, TSUP, MSTD, Kalbe, Kalbe-Farma, OneKalbe">
     <meta name="author" content="Ferdy Rahmat">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
     <link rel="shortcut icon" href="{{ asset('assets/logo/logo_only.png') }}" />
     <!--begin::Fonts(mandatory for all pages)-->
     <link rel="stylesheet" href="{{ asset('assets/css/inter_font_api.css') }}" />
@@ -26,8 +27,8 @@
 <!--end::Head-->
 
 <!--begin::Body-->
-<body id="kt_app_body" data-kt-app-layout="light-sidebar" data-kt-app-header-fixed="true" 
-    data-kt-app-page-loading-enabled="true" data-kt-app-page-loading="on" 
+<body id="kt_app_body" data-kt-app-layout="light-sidebar" data-kt-app-header-fixed="true"
+    data-kt-app-page-loading-enabled="true" data-kt-app-page-loading="on"
     data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true"
     data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true"
     data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default"
@@ -396,7 +397,7 @@ $maintenance = App\Models\MaintenanceMode::first();
             </div>
 
             <script>
-                function clearNotif() 
+                function clearNotif()
                 {
                     $.ajax({
                         type: 'POST',
@@ -482,7 +483,7 @@ $maintenance = App\Models\MaintenanceMode::first();
                         @yield('main-content')
                     </div>
                     <!--end::Content wrapper-->
-                    
+
                     <!--begin::Footer-->
                     <div id="kt_app_footer" class="app-footer">
                         <!--begin::Footer container-->
@@ -543,7 +544,7 @@ $idleMinutes = $idleTimeSetting ? $idleTimeSetting->idle_time : 59; // Default t
         // Increment the idle time counter every second
         const idleInterval = setInterval(() => {
             idleTime++;
-            
+
             // Calculate total idle time in minutes and seconds
             const totalIdleTime = idleTime % 3600; // Total seconds in an hour
             const minutes = Math.floor(totalIdleTime / 60);
@@ -552,10 +553,10 @@ $idleMinutes = $idleTimeSetting ? $idleTimeSetting->idle_time : 59; // Default t
             // Format minutes and seconds to always show two digits
             const formattedMinutes = String(minutes).padStart(2, '0');
             const formattedSeconds = String(seconds).padStart(2, '0');
-            
+
             idleDisplay.textContent = `Idle Time: ${formattedMinutes}:${formattedSeconds}`;
 
-            if (minutes >= {{ $idleMinutes }}) { 
+            if (minutes >= {{ $idleMinutes }}) {
                 window.location.href = '{{ route("logout") }}'; // Update this route as needed
             }
         }, 1000); // Check every second
@@ -734,7 +735,7 @@ $idleMinutes = $idleTimeSetting ? $idleTimeSetting->idle_time : 59; // Default t
         });
 
         $('#btnMt').on('click', function() {
-            
+
         });
     </script>
 
