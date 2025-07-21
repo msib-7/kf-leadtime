@@ -49,6 +49,7 @@
                             </div>
                         </div>
                     </div> --}}
+
                     <!--begin:Menu item-->
                     <div class="menu-item pt-5">
                         <!--begin:Menu content-->
@@ -72,6 +73,33 @@
                         <!--end:Menu link-->
                     </div>
                     <!--end:Menu item-->
+
+
+                    <!--begin:Menu item-->
+                    <div class="menu-item pt-5">
+                        <!--begin:Menu content-->
+                        <div class="menu-content">
+                            <span class="text-gray-800 fw-bold text-uppercase fs-8">Calculation</span>
+                        </div>
+                        <!--end:Menu content-->
+                    </div>
+                    <!--end:Menu item-->
+                    {{-- Dashboard --}}
+                    <!--begin:Menu item-->
+                    <div class="menu-item">
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{ request()->is('v1/calculation*') ? 'active' : '' }}" href="{{ route('v1.calculation.index') }}">
+                            <span class="menu-icon">
+                                {{-- <i class="ki-outline ki-element-11 fs-2"></i> --}}
+                                <i class="ki-outline ki-chart-pie-4 fs-2"></i>
+                            </span>
+                            <span class="menu-title fw-semibold">Exclude</span>
+                        </a>
+                        <!--end:Menu link-->
+                    </div>
+                    <!--end:Menu item-->
+
+
 
                     {{-- Sidebar Admin --}}
                     @include('layout.sidebar.admin')
