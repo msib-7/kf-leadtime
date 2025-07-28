@@ -27,13 +27,13 @@ class ComposerStaticInitb27c6efbc0b07ee4bcc700debeff1fe3
         '2203a247e6fda86070a5e4e07aed533a' => __DIR__ . '/..' . '/symfony/clock/Resources/now.php',
         '09f6b20656683369174dd6fa83b7e5fb' => __DIR__ . '/..' . '/symfony/polyfill-uuid/bootstrap.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
-        '688fcb9786c12fcd4d61cc4902b45934' => __DIR__ . '/..' . '/giauphan/qr-code/src/helpers/constants.php',
-        '63c26a32f5748c1b8b2da38a08c82b66' => __DIR__ . '/..' . '/giauphan/qr-code/src/helpers/functions.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '40275907c8566c390185147049ef6e5d' => __DIR__ . '/..' . '/livewire/livewire/src/helpers.php',
         'a1cfe24d14977df6878b9bf804af2d1c' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Autoload.php',
         'aadac1114cab8dc19489a7f6dc24c003' => __DIR__ . '/..' . '/pestphp/pest-plugin-arch/src/Autoload.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
+        '688fcb9786c12fcd4d61cc4902b45934' => __DIR__ . '/..' . '/giauphan/qr-code/src/helpers/constants.php',
+        '63c26a32f5748c1b8b2da38a08c82b66' => __DIR__ . '/..' . '/giauphan/qr-code/src/helpers/functions.php',
         '476ca15b8d69b04665cd879be9cb4c68' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Collections/functions.php',
         '265b4faa2b3a9766332744949e83bf97' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Collections/helpers.php',
         'c7a3c339e7e14b60e06a2d7fcce9476b' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Events/functions.php',
@@ -247,8 +247,8 @@ class ComposerStaticInitb27c6efbc0b07ee4bcc700debeff1fe3
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'ZipStream\\' => 
         array (
@@ -256,12 +256,12 @@ class ComposerStaticInitb27c6efbc0b07ee4bcc700debeff1fe3
         ),
         'Yajra\\DataTables\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src',
-            1 => __DIR__ . '/..' . '/yajra/laravel-datatables-html/src',
-            2 => __DIR__ . '/..' . '/yajra/laravel-datatables-fractal/src',
-            3 => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src',
-            4 => __DIR__ . '/..' . '/yajra/laravel-datatables-export/src',
-            5 => __DIR__ . '/..' . '/yajra/laravel-datatables-editor/src',
+            0 => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src',
+            1 => __DIR__ . '/..' . '/yajra/laravel-datatables-editor/src',
+            2 => __DIR__ . '/..' . '/yajra/laravel-datatables-export/src',
+            3 => __DIR__ . '/..' . '/yajra/laravel-datatables-fractal/src',
+            4 => __DIR__ . '/..' . '/yajra/laravel-datatables-html/src',
+            5 => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src',
         ),
         'Whoops\\' => 
         array (
@@ -437,8 +437,8 @@ class ComposerStaticInitb27c6efbc0b07ee4bcc700debeff1fe3
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -534,8 +534,8 @@ class ComposerStaticInitb27c6efbc0b07ee4bcc700debeff1fe3
         ),
         'League\\Uri\\' => 
         array (
-            0 => __DIR__ . '/..' . '/league/uri-interfaces',
-            1 => __DIR__ . '/..' . '/league/uri',
+            0 => __DIR__ . '/..' . '/league/uri',
+            1 => __DIR__ . '/..' . '/league/uri-interfaces',
         ),
         'League\\MimeTypeDetection\\' => 
         array (
@@ -745,6 +745,8 @@ class ComposerStaticInitb27c6efbc0b07ee4bcc700debeff1fe3
         'App\\Http\\Controllers\\System\\NotificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/System/NotificationController.php',
         'App\\Http\\Controllers\\System\\Permission\\PermissionController' => __DIR__ . '/../..' . '/app/Http/Controllers/System/Permission/PermissionController.php',
         'App\\Http\\Controllers\\System\\Settings\\SettingsController' => __DIR__ . '/../..' . '/app/Http/Controllers/System/Settings/SettingsController.php',
+        'App\\Http\\Controllers\\V1\\Calculation\\CalculationController' => __DIR__ . '/../..' . '/app/Http/Controllers/V1/Calculation/CalculationController.php',
+        'App\\Http\\Controllers\\V1\\Calculation\\ExcludeController' => __DIR__ . '/../..' . '/app/Http/Controllers/V1/Calculation/ExcludeController.php',
         'App\\Http\\Middleware\\CheckJobLvlPermission' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckJobLvlPermission.php',
         'App\\Http\\Middleware\\MaintenanceMode' => __DIR__ . '/../..' . '/app/Http/Middleware/MaintenanceMode.php',
         'App\\Http\\Middleware\\NetworkTesting' => __DIR__ . '/../..' . '/app/Http/Middleware/NetworkTesting.php',
@@ -757,6 +759,10 @@ class ComposerStaticInitb27c6efbc0b07ee4bcc700debeff1fe3
         'App\\Models\\Session' => __DIR__ . '/../..' . '/app/Models/Session.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Models\\UserPrint' => __DIR__ . '/../..' . '/app/Models/UserPrint.php',
+        'App\\Models\\V1\\tags' => __DIR__ . '/../..' . '/app/Models/V1/tags.php',
+        'App\\Models\\V1\\xxdash_lt_result' => __DIR__ . '/../..' . '/app/Models/V1/xxdash_lt_result.php',
+        'App\\Models\\V1\\xxdash_lt_result_excl' => __DIR__ . '/../..' . '/app/Models/V1/xxdash_lt_result_excl.php',
+        'App\\Models\\V1\\xxdash_lt_target_produk' => __DIR__ . '/../..' . '/app/Models/V1/xxdash_lt_target_produk.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',

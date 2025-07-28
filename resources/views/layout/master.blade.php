@@ -1,37 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <!--begin::Head-->
+
 <head>
-    <base href=""/>
+    <base href="" />
     <title>@yield('title') - {{ env('APP_NAME') }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Formulir Monitoring Ruangan. Pantau Kondisi Suhu, RH, DP">
-    <meta name="keywords" content="Monitoring, TSUP, MSTD, Kalbe, Kalbe-Farma, OneKalbe">
-    <meta name="author" content="Ferdy Rahmat">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Website Perhitungan PCT/Leadtime. Melihat pencapain pct per line, minico">
+    <meta name="keywords" content="Website, Leadtime, PCT, Monitoring, TSUP, MSTD, Kalbe, Kalbe-Farma, OneKalbe">
+    <meta name="author" content="Rangga Wijaya">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
     <link rel="shortcut icon" href="{{ asset('assets/logo/logo_only.png') }}" />
     <!--begin::Fonts(mandatory for all pages)-->
     <link rel="stylesheet" href="{{ asset('assets/css/inter_font_api.css') }}" />
     <!--end::Fonts-->
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css" />
     <!--begin::Vendor Stylesheets(used for this page only)-->
-    <link href="{{asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet"
+        type="text/css" />
+    <style>
+        .text-danger {
+            color: #dc3545 !important;
+        }
+
+        .font-weight-bold {
+            font-weight: bold !important;
+        }
+    </style>
     @yield('head')
     <!--end::Vendor Stylesheets-->
     <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
-    <link href="{{asset('assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
     <!--end::Global Stylesheets Bundle-->
-    <script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
+    <script>
+        // Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }
+    </script>
 </head>
 <!--end::Head-->
 
 <!--begin::Body-->
+
 <body id="kt_app_body" data-kt-app-layout="light-sidebar" data-kt-app-header-fixed="true"
-    data-kt-app-page-loading-enabled="true" data-kt-app-page-loading="on"
-    data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true"
-    data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true"
-    data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default"
+    data-kt-app-page-loading-enabled="true" data-kt-app-page-loading="on" data-kt-app-sidebar-enabled="true"
+    data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true"
+    data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
+    class="app-default"
     style="background-image: url('/assets/img/bglineB.svg'); background-repeat: repeat-y; background-size: cover;">
 
     <!--begin::Theme mode setup on page load-->
@@ -53,7 +69,6 @@
             }
             document.documentElement.setAttribute("data-bs-theme", themeMode);
         }
-
     </script>
     <!--end::Theme mode setup on page load-->
 
@@ -71,16 +86,17 @@
         <!--begin::Page-->
         <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
             <!--begin::Header-->
-            <div id="kt_app_header" class="app-header" data-kt-sticky="true" data-kt-sticky-activate="{default: true, lg: true}"
-                data-kt-sticky-name="app-header-minimize" data-kt-sticky-offset="{default: '200px', lg: '0'}"
-                data-kt-sticky-animation="false">
+            <div id="kt_app_header" class="app-header" data-kt-sticky="true"
+                data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize"
+                data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false">
 
                 <!--begin::Header container-->
                 <div class="app-container container-fluid d-flex align-items-stretch justify-content-between"
                     id="kt_app_header_container">
                     <!--begin::Sidebar mobile toggle-->
                     <div class="d-flex align-items-center d-lg-none ms-n3 me-1 me-md-2" title="Show sidebar menu">
-                        <div class="btn btn-icon btn-active-color-primary w-35px h-35px" id="kt_app_sidebar_mobile_toggle">
+                        <div class="btn btn-icon btn-active-color-primary w-35px h-35px"
+                            id="kt_app_sidebar_mobile_toggle">
                             <i class="ki-outline ki-abstract-14 fs-2 fs-md-1"></i>
                         </div>
                     </div>
@@ -88,12 +104,13 @@
                     <!--begin::Mobile logo-->
                     <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
                         <a class="d-lg-none">
-                            <img alt="Logo" src="{{asset('assets/logo/kalbe_farma.png')}}" class="h-30px" />
+                            <img alt="Logo" src="{{ asset('assets/logo/kalbe_farma.png') }}" class="h-30px" />
                         </a>
                     </div>
                     <!--end::Mobile logo-->
                     <!--begin::Header wrapper-->
-                    <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1" id="kt_app_header_wrapper">
+                    <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1"
+                        id="kt_app_header_wrapper">
                         <!--begin::Menu wrapper-->
                         <div class="app-header-menu app-header-mobile-drawer align-items-stretch" data-kt-drawer="true"
                             data-kt-drawer-name="app-header-menu" data-kt-drawer-activate="{default: true, lg: false}"
@@ -109,10 +126,12 @@
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb">
                                             @php
-$maintenance = App\Models\MaintenanceMode::first();
+                                                $maintenance = App\Models\MaintenanceMode::first();
                                             @endphp
                                             @if ($maintenance->maintenance == true)
-                                                <button id='btnMt' class="btn btn-light-danger btn-sm fs-5" data-bs-toggle="tooltip" data-bs-placement="right" title="Maintenance Mode is Active!">
+                                                <button id='btnMt' class="btn btn-light-danger btn-sm fs-5"
+                                                    data-bs-toggle="tooltip" data-bs-placement="right"
+                                                    title="Maintenance Mode is Active!">
                                                     Maintenance
                                                 </button>
                                             @endif
@@ -134,16 +153,18 @@ $maintenance = App\Models\MaintenanceMode::first();
                                 {{-- Notify --}}
                                 <!--begin::Menu- wrapper-->
                                 <div class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px position-relative"
-                                    data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent"
-                                    data-kt-menu-placement="bottom-end" id="kt_menu_item_wow">
+                                    data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
+                                    data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end"
+                                    id="kt_menu_item_wow">
                                     <i class="ki-outline ki-notification-status fs-2"></i>
-                                    @if(auth()->user()->notify()->count() > 0)
-                                        <span class="bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink"></span>
+                                    @if (auth()->user()->notify()->count() > 0)
+                                        <span
+                                            class="bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink"></span>
                                     @endif
                                 </div>
                                 <!--begin::Menu-->
-                                <div class="menu menu-sub menu-sub-dropdown menu-column w-350px w-lg-500px" data-kt-menu="true"
-                                    id="kt_menu_notifications">
+                                <div class="menu menu-sub menu-sub-dropdown menu-column w-350px w-lg-500px"
+                                    data-kt-menu="true" id="kt_menu_notifications">
                                     <!--begin::Heading-->
                                     <div class="d-flex flex-column bgi-no-repeat rounded-top"
                                         style="background-image: url('/assets/media/misc/menu-header-bg.jpg'); background-size: cover; background-position: center;">
@@ -161,16 +182,19 @@ $maintenance = App\Models\MaintenanceMode::first();
                                     <!--begin::Tab content-->
                                     <div class="tab-content">
                                         <!--begin::Tab panel-->
-                                        <div class="tab-pane fade show active" id="kt_topbar_notifications_3" role="tabpanel">
+                                        <div class="tab-pane fade show active" id="kt_topbar_notifications_3"
+                                            role="tabpanel">
                                             <!--begin::Items-->
                                             <div class="scroll-y mh-300px my-5 px-8">
                                                 {{-- Notify --}}
                                                 @forelse (auth()->user()->notify() as $notif)
                                                     @php
-    // Cek apakah notifikasi dari hari ini
-    $isToday = Carbon\Carbon::parse($notif->created_at)->isToday();
-    // Format waktu relative seperti "2 min ago"
-    $relativeTime = Carbon\Carbon::parse($notif->created_at)->diffForHumans();
+                                                        // Cek apakah notifikasi dari hari ini
+                                                        $isToday = Carbon\Carbon::parse($notif->created_at)->isToday();
+                                                        // Format waktu relative seperti "2 min ago"
+                                                        $relativeTime = Carbon\Carbon::parse(
+                                                            $notif->created_at,
+                                                        )->diffForHumans();
                                                     @endphp
 
                                                     <!--begin::Item-->
@@ -180,15 +204,19 @@ $maintenance = App\Models\MaintenanceMode::first();
                                                             <div class="card mb-2">
                                                                 <div class="card-body">
                                                                     <!--begin::Label-->
-                                                                    <span class="badge {{ $isToday ? 'badge-success' : 'badge-warning' }} fs-8 float-end">{{ $isToday ? 'Today' : 'Kemarin' }}</span>
+                                                                    <span
+                                                                        class="badge {{ $isToday ? 'badge-success' : 'badge-warning' }} fs-8 float-end">{{ $isToday ? 'Today' : 'Kemarin' }}</span>
                                                                     <!--end::Label-->
-                                                                    <span class="text-sm text-muted">{{ $relativeTime }}</span>
-                                                                    <h5 class="text-body mb-2 mt-2">{{ $notif->title }}</h5>
+                                                                    <span
+                                                                        class="text-sm text-muted">{{ $relativeTime }}</span>
+                                                                    <h5 class="text-body mb-2 mt-2">
+                                                                        {{ $notif->title }}</h5>
                                                                     <p class="mb-0">{{ $notif->message }}</p>
                                                                     <p class="mb-0">
-                                                                        @if($notif->url)
+                                                                        @if ($notif->url)
                                                                             <a href="{{ $notif->url }}">
-                                                                                <button class="btn btn-secondary btn-sm float-end">direct</button>
+                                                                                <button
+                                                                                    class="btn btn-secondary btn-sm float-end">direct</button>
                                                                             </a>
                                                                         @endif
                                                                     </p>
@@ -200,8 +228,10 @@ $maintenance = App\Models\MaintenanceMode::first();
                                                     <!--end::Item-->
                                                 @empty
                                                     <div class="d-flex flex-stack">
-                                                        <div class="d-flex align-items-center w-100 justify-content-center">
-                                                            <h6 class="text-body mb-2 mt-2 text-gray-600">Tidak Ada Notifikasi</h6>
+                                                        <div
+                                                            class="d-flex align-items-center w-100 justify-content-center">
+                                                            <h6 class="text-body mb-2 mt-2 text-gray-600">Tidak Ada
+                                                                Notifikasi</h6>
                                                         </div>
                                                     </div>
                                                 @endforelse
@@ -209,7 +239,8 @@ $maintenance = App\Models\MaintenanceMode::first();
                                             <!--end::Items-->
                                             <!--begin::View more-->
                                             <div class="py-1 text-center border-top">
-                                                <button class="btn btn-color-gray-600 btn-active-color-danger w-100" onclick="clearNotif()">
+                                                <button class="btn btn-color-gray-600 btn-active-color-danger w-100"
+                                                    onclick="clearNotif()">
                                                     Clear all notification
                                                 </button>
                                             </div>
@@ -228,17 +259,18 @@ $maintenance = App\Models\MaintenanceMode::first();
                             <div class="app-navbar-item ms-1 ms-md-4" id="kt_header_user_menu_toggle">
                                 <div class="d-flex flex-column px-2 align-items-end">
                                     <div class="d-flex fs-6">
-                                        {{auth()->user()->fullname}}
+                                        {{ auth()->user()->fullname }}
                                     </div>
                                     <div class="d-flex fs-8 fw-semibold">
-                                        <span class="badge badge-light-info">{{auth()->user()->jobTitle}}</span>
+                                        <span class="badge badge-light-info">{{ auth()->user()->jobTitle }}</span>
                                     </div>
                                 </div>
                                 <!--begin::Menu wrapper-->
                                 <div class="cursor-pointer symbol symbol-35px"
-                                    data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent"
-                                    data-kt-menu-placement="bottom-end">
-                                    <img src="/assets/media/avatars/avatar_gray.png" class="rounded-3" alt="user" />
+                                    data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
+                                    data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+                                    <img src="/assets/media/avatars/avatar_gray.png" class="rounded-3"
+                                        alt="user" />
                                 </div>
                                 <!--begin::User account menu-->
                                 <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px"
@@ -254,9 +286,10 @@ $maintenance = App\Models\MaintenanceMode::first();
                                             <!--begin::Username-->
                                             <div class="d-flex flex-column">
                                                 <div class="fw-bold align-items-center fs-5">
-                                                    {{auth()->user()->fullname}}
+                                                    {{ auth()->user()->fullname }}
                                                 </div>
-                                                <small class="fw-semibold text-muted fs-7">{{ auth()->user()->email }}</small>
+                                                <small
+                                                    class="fw-semibold text-muted fs-7">{{ auth()->user()->email }}</small>
                                             </div>
                                             <!--end::Username-->
                                         </div>
@@ -318,7 +351,8 @@ $maintenance = App\Models\MaintenanceMode::first();
                                             <!--end::Menu item-->
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3 my-0">
-                                                <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="dark">
+                                                <a href="#" class="menu-link px-3 py-2" data-kt-element="mode"
+                                                    data-kt-value="dark">
                                                     <span class="menu-icon" data-kt-element="icon">
                                                         <i class="ki-duotone ki-moon fs-2">
                                                             <span class="path1"></span>
@@ -369,7 +403,8 @@ $maintenance = App\Models\MaintenanceMode::first();
                                     <!--end::Menu item--> --}}
                                     <!--begin::Menu item-->
                                     <div class="menu-item px-5">
-                                        <a href="{{route('logout')}}" class="menu-link px-5" onclick="showLoading()">Sign Out</a>
+                                        <a href="{{ route('logout') }}" class="menu-link px-5"
+                                            onclick="showLoading()">Sign Out</a>
                                     </div>
                                     <!--end::Menu item-->
                                 </div>
@@ -397,11 +432,10 @@ $maintenance = App\Models\MaintenanceMode::first();
             </div>
 
             <script>
-                function clearNotif()
-                {
+                function clearNotif() {
                     $.ajax({
                         type: 'POST',
-                        url: '{{ url("user/clear-notifications") }}', // Update this route
+                        url: '{{ url('user/clear-notifications') }}', // Update this route
                         data: {
                             _token: '{{ csrf_token() }}' // Include CSRF token
                         },
@@ -459,11 +493,13 @@ $maintenance = App\Models\MaintenanceMode::first();
                         <!--begin::Toolbar-->
                         <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
                             <!--begin::Toolbar container-->
-                            <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
+                            <div id="kt_app_toolbar_container"
+                                class="app-container container-fluid d-flex flex-stack">
                                 <!--begin::Page title-->
                                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                                     <!--begin::Title-->
-                                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                                    <h1
+                                        class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
                                         @yield('page_title')
                                     </h1>
                                     <!--end::Title-->
@@ -487,11 +523,13 @@ $maintenance = App\Models\MaintenanceMode::first();
                     <!--begin::Footer-->
                     <div id="kt_app_footer" class="app-footer">
                         <!--begin::Footer container-->
-                        <div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
+                        <div
+                            class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
                             <!--begin::Copyright-->
                             <div class="text-dark order-2 order-md-1">
                                 <span class="text-muted fw-semibold me-1">2025&copy;</span>
-                                <a href="" target="_blank" class="text-gray-800 text-hover-primary fs-6">Kalbe Farma &#9829; crafted by MSTD Team </a>
+                                <a href="" target="_blank" class="text-gray-800 text-hover-primary fs-6">Kalbe
+                                    Farma &#9829; crafted by MSTD Team </a>
                             </div>
                             <!--end::Copyright-->
                             {{-- <!--begin::Menu-->
@@ -531,8 +569,8 @@ $maintenance = App\Models\MaintenanceMode::first();
 
     <!--begin::Javascript-->
     @php
-$idleTimeSetting = \App\Models\MaintenanceMode::first();
-$idleMinutes = $idleTimeSetting ? $idleTimeSetting->idle_time : 59; // Default to 60 minutes if not set
+        $idleTimeSetting = \App\Models\MaintenanceMode::first();
+        $idleMinutes = $idleTimeSetting ? $idleTimeSetting->idle_time : 59; // Default to 60 minutes if not set
     @endphp
 
     <script>
@@ -557,7 +595,7 @@ $idleMinutes = $idleTimeSetting ? $idleTimeSetting->idle_time : 59; // Default t
             idleDisplay.textContent = `Idle Time: ${formattedMinutes}:${formattedSeconds}`;
 
             if (minutes >= {{ $idleMinutes }}) {
-                window.location.href = '{{ route("logout") }}'; // Update this route as needed
+                window.location.href = '{{ route('logout') }}'; // Update this route as needed
             }
         }, 1000); // Check every second
 
@@ -602,8 +640,8 @@ $idleMinutes = $idleTimeSetting ? $idleTimeSetting->idle_time : 59; // Default t
         });
     </script> --}}
     <!--begin::Global Javascript Bundle(mandatory for all pages)-->
-    <script src="{{asset('/assets/plugins/global/plugins.bundle.js')}}"></script>
-    <script src="{{asset('/assets/js/scripts.bundle.js')}}"></script>
+    <script src="{{ asset('/assets/plugins/global/plugins.bundle.js') }}"></script>
+    <script src="{{ asset('/assets/js/scripts.bundle.js') }}"></script>
     {{-- <script src="{{ asset('assets/js/check.js') }}"></script> --}}
     @include('layout.alert')
     <!--end::Global Javascript Bundle-->
@@ -618,6 +656,7 @@ $idleMinutes = $idleTimeSetting ? $idleTimeSetting->idle_time : 59; // Default t
         function showLoading() {
             $('#page-loading').fadeIn();
         }
+
         function hideLoading() {
             $('#page-loading').fadeOut();
         }
@@ -743,4 +782,5 @@ $idleMinutes = $idleTimeSetting ? $idleTimeSetting->idle_time : 59; // Default t
     <!--end::Javascript-->
 </body>
 <!--end::Body-->
+
 </html>

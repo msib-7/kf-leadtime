@@ -88,12 +88,25 @@
                     <!--begin:Menu item-->
                     <div class="menu-item">
                         <!--begin:Menu link-->
-                        <a class="menu-link {{ request()->is('v1/calculation*') ? 'active' : '' }}" href="{{ route('v1.calculation.index') }}">
+                        <a class="menu-link {{ request()->is('v1/calculation') || request()->is('v1/calculation/exclude*') ? 'active' : '' }}" href="{{ route('v1.calculation.index') }}">
                             <span class="menu-icon">
                                 {{-- <i class="ki-outline ki-element-11 fs-2"></i> --}}
-                                <i class="ki-outline ki-chart-pie-4 fs-2"></i>
+                                <i class="ki-solid ki-chart-pie-4 fs-2"></i>
                             </span>
-                            <span class="menu-title fw-semibold">Exclude</span>
+                            <span class="menu-title fw-semibold">Exclude Validasi</span>
+                        </a>
+                        <!--end:Menu link-->
+                    </div>
+                    <!--end:Menu item-->
+                    <!--begin:Menu item-->
+                    <div class="menu-item">
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{ request()->is('v1/calculation/problem*') ? 'active' : '' }}" href="{{ route('v1.calculation.problem.index') }}">
+                            <span class="menu-icon">
+                                {{-- <i class="ki-outline ki-element-11 fs-2"></i> --}}
+                                <i class="ki-solid ki-information fs-2"></i>
+                            </span>
+                            <span class="menu-title fw-semibold">Exclude Problem</span>
                         </a>
                         <!--end:Menu link-->
                     </div>

@@ -1,9 +1,9 @@
 @extends('layout.master')
 @section('title')
-    Calculation Exclude
+    Calculation Exclude Problem
 @endsection
 @section('page_title')
-    Calculation Exclude
+    Calculation Exclude Problem
 @endsection
 @section('breadcrumb')
     <!--begin::Breadcrumb-->
@@ -27,7 +27,7 @@
         </li>
         <!--end::Item-->
         <!--begin::Item-->
-        <li class="breadcrumb-item text-muted">Exclude</li>
+        <li class="breadcrumb-item text-muted">Exclude Problem</li>
         <!--end::Item-->
         <!--end::Item-->
     </ul>
@@ -39,18 +39,18 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
-                        <h6>Exclude Table Data</h6>
+                        <h6>Exclude Problem Table Data</h6>
                     </div>
                     <div>
                         {{-- @section('action_button') --}}
-                        <a class="menu-link" href="{{ route('v1.calculation.index') }}">
-                            <button class="btn btn-primary btn-lg mt-3" id="actualTable-btn">
+                        <a class="menu-link" href="{{ route('v1.calculation.problem.index') }}">
+                            <button class="btn btn-danger btn-lg mt-3" id="menuProblemTable-btn">
                                 <i class="ki-duotone ki-exit-left fs-2">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
                                 </i>
-                                <span id="Actual-table" class="fw-semibold">
-                                    Back to Actual Table
+                                <span id="menu-problem-table" class="fw-semibold">
+                                    Back to Exclude Table
                                 </span>
                             </button>
                         </a>
@@ -78,7 +78,7 @@
                             </select>
                         </div>
                         <div class="col-md-3 d-flex align-items-end">
-                            <button id="apply-filter" class="btn btn-secondary">
+                            <button id="apply-filter" class="btn btn-primary">
                                 <i class="ki-duotone ki-filter-tick fs-2">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
@@ -89,7 +89,7 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped table-responsive" id="table-exclude">
+                        <table class="table table-bordered table-striped table-responsive" id="table-menu-problem">
                             <thead>
                                 <tr>
                                     {{-- <th>Parent Lot</th> --}}
@@ -270,12 +270,12 @@
             // Function to initialize or reload DataTable
             function loadDataTable(bulan, tahun, line) {
                 // Destroy existing DataTable if it exists
-                if ($.fn.DataTable.isDataTable('#table-exclude')) {
-                    $('#table-exclude').DataTable().destroy();
+                if ($.fn.DataTable.isDataTable('#table-menu-problem')) {
+                    $('#table-menu-problem').DataTable().destroy();
                 }
 
                 // Initialize new DataTable
-                tableExclude = $('#table-exclude').DataTable({
+                tableExclude = $('#table-menu-problem').DataTable({
                     processing: true,
                     serverSide: true,
                     ajax: {
@@ -424,54 +424,54 @@
                             name: 'excluded_by'
                         },
                         // Kolom terakhir - Action
-                        {
-                            data: null,
-                            name: 'action',
-                            orderable: false,
-                            searchable: false,
-                            render: function(data, type, row) {
-                                // Tentukan teks dan kelas tombol berdasarkan nilai prod_line_after
-                                let buttonText = 'Line X';
-                                let buttonClass = 'btn-info';
-                                let buttonIcon = 'ki-abstract-11';
-                                if (row.prod_line_after === 'LINE X') {
-                                    buttonText = 'Rollback X';
-                                    buttonClass = 'btn-warning'; // Atau warna lain yang sesuai
-                                    buttonIcon = 'ki-arrows-circle'; // Icon untuk rollback
-                                }
-                                // Tentukan teks dan kelas tombol untuk "Exclude/Rollback Exclude"
-                                let excludeButtonText = 'Exclude';
-                                let excludeButtonClass = 'btn-danger';
-                                let excludeButtonIcon =
-                                    'ki-duotone ki-cross-circle'; // Icon untuk Exclude
-                                if (row.is_excluded) { // Jika data sudah di-exclude
-                                    excludeButtonText = 'Rollback';
-                                    excludeButtonClass =
-                                        'btn-success'; // Warna hijau untuk rollback
-                                    excludeButtonIcon =
-                                        'ki-duotone ki-arrows-circle'; // Icon untuk Rollback
-                                }
-                                return `
-                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <button class="btn ${excludeButtonClass} btn-sm exclude-toggle-btn ms-1 w-100"
-                                            data-lot-number="${row.lot_number}"
-                                            data-is-excluded="${row.is_excluded}">
-                                        <i class="${excludeButtonIcon} fs-2">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
-                                    </button>
-                                    <button class="btn ${buttonClass} btn-sm toggle-line-x-btn ms-1 w-100"
-                                            data-lot-number="${row.lot_number}"
-                                            data-current-prod-line-after="${row.prod_line_after}">
-                                        <i class="ki-duotone ${buttonIcon} fs-2">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
-                                    </button>
-                                </div>`;
-                            }
-                        }
+                        // {
+                        //     data: null,
+                        //     name: 'action',
+                        //     orderable: false,
+                        //     searchable: false,
+                        //     render: function(data, type, row) {
+                        //         // Tentukan teks dan kelas tombol berdasarkan nilai prod_line_after
+                        //         let buttonText = 'Line X';
+                        //         let buttonClass = 'btn-info';
+                        //         let buttonIcon = 'ki-abstract-11';
+                        //         if (row.prod_line_after === 'LINE X') {
+                        //             buttonText = 'Rollback X';
+                        //             buttonClass = 'btn-warning'; // Atau warna lain yang sesuai
+                        //             buttonIcon = 'ki-arrows-circle'; // Icon untuk rollback
+                        //         }
+                        //         // Tentukan teks dan kelas tombol untuk "Exclude/Rollback Exclude"
+                        //         let excludeButtonText = 'Exclude';
+                        //         let excludeButtonClass = 'btn-danger';
+                        //         let excludeButtonIcon =
+                        //             'ki-duotone ki-cross-circle'; // Icon untuk Exclude
+                        //         if (row.is_excluded) { // Jika data sudah di-exclude
+                        //             excludeButtonText = 'Rollback';
+                        //             excludeButtonClass =
+                        //                 'btn-success'; // Warna hijau untuk rollback
+                        //             excludeButtonIcon =
+                        //                 'ki-duotone ki-arrows-circle'; // Icon untuk Rollback
+                        //         }
+                        //         return `
+                        //         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        //             <button class="btn ${excludeButtonClass} btn-sm exclude-toggle-btn ms-1 w-100"
+                        //                     data-lot-number="${row.lot_number}"
+                        //                     data-is-excluded="${row.is_excluded}">
+                        //                 <i class="${excludeButtonIcon} fs-2">
+                        //                     <span class="path1"></span>
+                        //                     <span class="path2"></span>
+                        //                 </i>
+                        //             </button>
+                        //             <button class="btn ${buttonClass} btn-sm toggle-line-x-btn ms-1 w-100"
+                        //                     data-lot-number="${row.lot_number}"
+                        //                     data-current-prod-line-after="${row.prod_line_after}">
+                        //                 <i class="ki-duotone ${buttonIcon} fs-2">
+                        //                     <span class="path1"></span>
+                        //                     <span class="path2"></span>
+                        //                 </i>
+                        //             </button>
+                        //         </div>`;
+                        //     }
+                        // }
                     ],
                     // ... (opsi layout lainnya)
                 });
@@ -527,7 +527,7 @@
         });
     </script>
 
-    <script>
+    {{-- <script>
         
         // Event listener baru untuk tombol Exclude/Rollback yang dinamis
         $(document).on('click', '.exclude-toggle-btn', function() {
@@ -819,7 +819,7 @@
                 });
             }
         });
-    </script>
+    </script> --}}
 
 
     {{-- <script>

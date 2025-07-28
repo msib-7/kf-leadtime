@@ -1,17 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\V1\Calculation;
+namespace App\Http\Controllers\V1\Calculation\Problem;
 
 use App\Http\Controllers\Controller;
 use App\Models\V1\xxdash_lt_result;
 use App\Models\V1\xxdash_lt_result_excl; // Pastikan model ini sudah ada dan benar
+use App\Models\V1\xxdash_lt_result_problem; // Pastikan model ini sudah ada dan benar
 use Illuminate\Support\Facades\DB;
+use App\Models\V1\tags;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
-class CalculationController extends Controller
+class IndexProbController extends Controller
 {
+    //
     public function index()
     {
         // Data ini tidak lagi digunakan untuk tampilan awal DataTables,
@@ -21,7 +24,7 @@ class CalculationController extends Controller
         //     ->limit(15)
         //     ->get();
 
-        return view('v1.calculation.index'); // Tidak perlu compact('results') lagi
+        return view('v1.calculation.problem.indexprob'); // Tidak perlu compact('results') lagi
     }
 
     /**
@@ -34,7 +37,7 @@ class CalculationController extends Controller
             $bulan = $request->input('bulan');
             $tahun = $request->input('tahun');
 
-            $query = xxdash_lt_result::query();
+            $query = xxdash_lt_result_excl::query();
 
             // Apply filters if month and year are provided
             if ($bulan && $tahun) {
@@ -60,7 +63,7 @@ class CalculationController extends Controller
     public function getAvailableYears()
     {
         // Mengambil tahun yang valid dari kolom waktu_release
-        $years = xxdash_lt_result::select(DB::raw("DISTINCT EXTRACT(YEAR FROM TO_TIMESTAMP(waktu_release, 'MM/DD/YYYY HH24:MI:SS')) as year"))
+        $years = xxdash_lt_result_excl::select(DB::raw("DISTINCT EXTRACT(YEAR FROM TO_TIMESTAMP(waktu_release, 'MM/DD/YYYY HH24:MI:SS')) as year"))
             ->whereRaw("EXTRACT(YEAR FROM TO_TIMESTAMP(waktu_release, 'MM/DD/YYYY HH24:MI:SS')) IS NOT NULL") // Pastikan tahun tidak null
             ->orderBy('year', 'desc')
             ->pluck('year')
@@ -82,7 +85,7 @@ class CalculationController extends Controller
         $tahun = $request->input('tahun');
 
         // Query untuk mendapatkan bulan yang memiliki data
-        $query = xxdash_lt_result::select(DB::raw("EXTRACT(MONTH FROM TO_TIMESTAMP(waktu_release, 'MM/DD/YYYY HH24:MI:SS')) as month"))
+        $query = xxdash_lt_result_excl::select(DB::raw("EXTRACT(MONTH FROM TO_TIMESTAMP(waktu_release, 'MM/DD/YYYY HH24:MI:SS')) as month"))
             ->distinct();
 
         // Jika tahun dipilih, tambahkan filter tahun
@@ -101,6 +104,13 @@ class CalculationController extends Controller
         return response()->json($months);
     }
 
+    public function getAvailableTags()
+    {
+        $tags = tags::all(); // Ambil semua tag dari tabel Tag
+        return response()->json($tags);
+    }
+
+
 
     public function insertToExcl(Request $request)
     {
@@ -116,7 +126,7 @@ class CalculationController extends Controller
         }
 
         // Query data yang difilter
-        $filteredData = xxdash_lt_result::whereRaw("EXTRACT(MONTH FROM TO_TIMESTAMP(waktu_release, 'MM/DD/YYYY HH24:MI:SS')) = ?", [$bulan])
+        $filteredData = xxdash_lt_result_excl::whereRaw("EXTRACT(MONTH FROM TO_TIMESTAMP(waktu_release, 'MM/DD/YYYY HH24:MI:SS')) = ?", [$bulan])
             ->whereRaw("EXTRACT(YEAR FROM TO_TIMESTAMP(waktu_release, 'MM/DD/YYYY HH24:MI:SS')) = ?", [$tahun])
             ->where('prod_line', '!=', 'TOLL OUT')
             ->where('kode_produk', 'not like', 'X%')
@@ -130,7 +140,7 @@ class CalculationController extends Controller
             // DIBAWAH INI FUNCTION UNTUK HANYA MENGAMBIL KOLOM YANG DIPILIH SAJA TIDAK MENYERTAKAN ID, CREATED_AT DAN UPDATED_AT
             foreach ($filteredData as $data) {
                 // Periksa apakah data sudah ada di tabel excl berdasarkan lot_number
-                $exists = xxdash_lt_result_excl::where('lot_number', $data->lot_number)->exists();
+                $exists = xxdash_lt_result_problem::where('lot_number', $data->lot_number)->exists();
 
                 if (!$exists) {
                     // Ambil kolom yang ada di tabel excl
@@ -141,6 +151,7 @@ class CalculationController extends Controller
                         'jenis_sediaan',
                         'grup_minico',
                         'prod_line',
+                        'prod_line_after',
                         'waktu_transact_awal',
                         'waktu_transact_akhir',
                         'waktu_awal_ruah',
@@ -163,16 +174,18 @@ class CalculationController extends Controller
                         'bpp_closed',
                         'closed_release_fg',
                         'transact_mat_awal_shipping',
-                        'release_fg_shipping'
+                        'release_fg_shipping',
+                        'tag',
+                        'remark',
                     ]);
 
                     // Tambahkan created_at dan updated_at
-                    $dataToInsert['prod_line_after'] = $data->prod_line;
+                    // $dataToInsert['prod_line_after'] = $data->prod_line;
                     $dataToInsert['created_at'] = now();
                     $dataToInsert['updated_at'] = now();
 
                     // Lakukan insert ke tabel excl
-                    xxdash_lt_result_excl::create($dataToInsert);
+                    xxdash_lt_result_problem::create($dataToInsert);
                 }
             }
 

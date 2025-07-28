@@ -1,9 +1,9 @@
 @extends('layout.master')
 @section('title')
-    Calculation Exclude Validasi
+    Calculation Exclude Problrm
 @endsection
 @section('page_title')
-    Calculation Exclude Validasi
+    Calculation Exclude Problem
 @endsection
 @section('breadcrumb')
     <!--begin::Breadcrumb-->
@@ -27,7 +27,7 @@
         </li>
         <!--end::Item-->
         <!--begin::Item-->
-        <li class="breadcrumb-item text-muted">Exclude Validasi</li>
+        <li class="breadcrumb-item text-muted">Exclude Problem</li>
         <!--end::Item-->
         <!--end::Item-->
     </ul>
@@ -39,18 +39,18 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
-                        <h6>Actual Table Data</h6>
+                        <h6>Exclude Table Data</h6>
                     </div>
                     <div>
                         {{-- @section('action_button') --}}
-                        <a class="menu-link" href="{{ route('v1.calculation.exclude.index') }}">
-                            <button class="btn btn-success btn-lg mt-3" id="excludeTable-btn">
+                        <a class="menu-link" href="{{ route('v1.calculation.problem.menuprob.index') }}">
+                            <button class="btn btn-primary btn-lg mt-3" id="excludeProblemTable-btn">
                                 <i class="ki-duotone ki-entrance-left fs-2">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
                                 </i>
-                                <span id="exclude-table" class="fw-semibold">
-                                    Exclude Validasi Table
+                                <span id="exclude-problem-table" class="fw-semibold">
+                                    Exclude Problem Table
                                 </span>
                             </button>
                         </a>
@@ -72,7 +72,7 @@
                             </select>
                         </div>
                         <div class="col-md-3 d-flex align-items-end">
-                            <button id="apply-filter" class="btn btn-primary">
+                            <button id="apply-filter" class="btn btn-secondary">
                                 <i class="ki-duotone ki-filter-tick fs-2">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
@@ -83,15 +83,16 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped" id="table-actual">
+                        <table class="table table-bordered table-striped" id="table-exclude">
                             <thead>
                                 <tr>
                                     {{-- <th>Parent Lot</th> --}}
                                     <th>Lot Number</th>
                                     {{-- <th>Kode Produk</th> --}}
                                     {{-- <th>Jenis Sediaan</th> --}}
-                                    <th>Grup Minico</th>
-                                    <th>Prod Line</th>
+                                    <th>Minico</th>
+                                    <th>Line</th>
+                                    <th>Line After</th>
                                     {{-- <th>Status</th> --}}
                                     <th>Transact Mat Awal Release</th>
                                     <th>Transact Mat Awal Akhir</th>
@@ -105,6 +106,10 @@
                                     <th>Closed Release FG</th>
                                     <th>Transact Mat Awal Shipping</th>
                                     <th>Release FG Shipping</th>
+                                    {{-- <th>Tag</th>
+                                    <th>Remark</th>
+                                    <th>Exclude By</th> --}}
+                                    {{-- <th>Action</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -113,13 +118,13 @@
                         </table>
                         <div>
                             {{-- @section('action_button') --}}
-                            <button class="btn btn-secondary btn-lg mt-3" id="insert-excludeTable-btn">
+                            <button class="btn btn-success btn-lg mt-3" id="insert-excludeProblemTable-btn">
                                 <i class="ki-duotone ki-send fs-2">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
                                 </i>
-                                <span id="insert-exclude-table" class="fw-semibold">
-                                    Insert To Exclude Validasi Table
+                                <span id="insert-exclude-problem-table" class="fw-semibold">
+                                    Insert To Exclude Problem Table
                                 </span>
                             </button>
                             {{-- @endsection --}}
@@ -134,12 +139,12 @@
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
     <script>
         $(document).ready(function() {
-            let tableActual = null; // Variabel untuk menyimpan instance DataTables
+            let tableExclude = null; // Variabel untuk menyimpan instance DataTables
 
             // Function to populate years dropdown
             function populateYears() {
                 $.ajax({
-                    url: "{{ route('v1.calculation.getAvailableYears') }}",
+                    url: "{{ route('v1.calculation.problem.getAvailableYears') }}",
                     method: "GET",
                     success: function(response) {
                         let yearSelect = $('#filter-tahun');
@@ -159,7 +164,7 @@
             // Function to populate months dropdown based on selected year
             function populateMonths(tahun) {
                 $.ajax({
-                    url: "{{ route('v1.calculation.getAvailableMonths') }}",
+                    url: "{{ route('v1.calculation.problem.getAvailableMonths') }}",
                     method: "GET",
                     data: {
                         tahun: tahun
@@ -182,16 +187,16 @@
             // Function to initialize or reload DataTable
             function loadDataTable(bulan, tahun) {
                 // Destroy existing DataTable if it exists
-                if ($.fn.DataTable.isDataTable('#table-actual')) {
-                    $('#table-actual').DataTable().destroy();
+                if ($.fn.DataTable.isDataTable('#table-exclude')) {
+                    $('#table-exclude').DataTable().destroy();
                 }
 
                 // Initialize new DataTable
-                tableActual = $('#table-actual').DataTable({
+                tableExclude = $('#table-exclude').DataTable({
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('v1.calculation.getCalculationData') }}",
+                        url: "{{ route('v1.calculation.problem.getCalculationData') }}",
                         data: {
                             bulan: bulan,
                             tahun: tahun
@@ -221,6 +226,10 @@
                         {
                             data: 'prod_line',
                             name: 'prod_line'
+                        },
+                        {
+                            data: 'prod_line_after',
+                            name: 'prod_line_after'
                         },
                         // {
                         //     data: 'status',
@@ -274,6 +283,18 @@
                             data: 'release_fg_shipping',
                             name: 'release_fg_shipping'
                         },
+                        // {
+                        //     data: 'tag',
+                        //     name: 'tag'
+                        // },
+                        // {
+                        //     data: 'remark',
+                        //     name: 'remark'
+                        // },
+                        // {
+                        //     data: 'excluded_by',
+                        //     name: 'excluded_by'
+                        // },
                     ],
                     // ... (opsi layout lainnya)
                 });
@@ -325,7 +346,7 @@
         });
     </script>
     <script>
-        $('#insert-excludeTable-btn').on('click', function() {
+        $('#insert-excludeProblemTable-btn').on('click', function() {
             let selectedBulan = $('#filter-bulan').val();
             let selectedTahun = $('#filter-tahun').val();
 
@@ -360,7 +381,7 @@
                     });
 
                     $.ajax({
-                        url: "{{ route('v1.calculation.insertToExcl') }}",
+                        url: "{{ route('v1.calculation.problem.insertToExcl') }}",
                         method: "POST",
                         data: {
                             bulan: selectedBulan,
